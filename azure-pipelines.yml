@@ -28,7 +28,26 @@ steps:
     projects: '**/*.csproj'
     arguments: '--configuration $(buildconfiguration)'
 
+# run unit test 
+- task: DotnetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: test
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildconfiguration)'
 
+# publish artifacts
 
+- task: DotnetCoreCLI@2
+  displayName: 'dotnet publish'
+  inputs:
+    command: publish
+    publishwebprojects: false
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildconfiguration)'
 
-
+#upload build artifacts
+- task: PublishBuildArtifacts@1
+  displayName: 'publish artifact: drop'
+  inputs:
+    ArtifactName: 'AzureDemoPipeLine'
